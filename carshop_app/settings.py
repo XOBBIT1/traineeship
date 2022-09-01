@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'cars_details_app',
     'profile_app',
     'provider_app',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -56,9 +57,7 @@ MIDDLEWARE = [
 ]
 
 INTERNAL_IPS = [
-    # ...
     "127.0.0.1",
-    # ...
 ]
 
 ROOT_URLCONF = 'carshop_app.urls'
@@ -88,7 +87,7 @@ WSGI_APPLICATION = 'carshop_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'carshop_app',
+        'NAME': 'carmarket',
         'USER': 'admin',
         'PASSWORD': 'admin',
         'HOST': 'localhost',
