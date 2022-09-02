@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-import cars_app, provider_app, cars_details_app
+
 
 class Salon(models.Model):
     name = models.TextField("Name", blank=False, null=False)
