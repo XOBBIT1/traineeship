@@ -15,9 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from drf_spectacular.views import (
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+    SpectacularAPIView,
+)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('__debug__/', include('debug_toolbar.urls')),
-    path('', include("src.salon.urls")),
+    path("admin/", admin.site.urls),
+    path("__debug__/", include("debug_toolbar.urls")),
+    path("", include("src.salon.urls")),
+    path("profile", include("src.profile.urls")),
+    path("profile", include("django.contrib.auth.urls")),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/swagger/", SpectacularSwaggerView.as_view(), name="swagger-ui"),
 ]

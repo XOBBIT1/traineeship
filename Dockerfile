@@ -1,14 +1,23 @@
-FROM python:3.10.2
+FROM python:3.8 as base
 
-WORKDIR /usr/src/traineeship
+RUN pip install pipenv
 
-ENV PYTHONDONTWRITEBYTECODE=1
+ENV PROJECT_DIR /usr/src/treineeship
+ENV SRC_DIR ${PROJECT_DIR}/src
+
+COPY Pipfile Pipfile.lock ${PROJECT_DIR}/
+
+WORKDIR ${PROJECT_DIR}
+
 ENV PYTHONUNBUFFERED=1
 
-COPY ./requirements.txt /usr/src/requirements.txt
-RUN pip install -r /usr/src/requirements.txt
+FROM base as dev
 
-COPY . /usr/src/traineeship/
+# this is a dev image build, so install dev packages
+RUN pipenv install --system --dev
 
-EXPOSE 8000
-CMD ("python", "manage.py", "runserver", "0.0.0.0:8000")
+COPY ./src ${SRC_DIR}/
+
+WORKDIR ${SRC_DIR}
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
