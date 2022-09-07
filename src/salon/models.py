@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from src.carshop.config.date_model_mixin import TimeStampMixin
 
+
 class Salon(TimeStampMixin):
     name = models.CharField(max_length=256, null=False, blank=False)
     name_client = models.ForeignKey(
@@ -10,13 +11,13 @@ class Salon(TimeStampMixin):
     name_provider = models.ManyToManyField(
         "provider.Provider",
         related_name="provider_salon",
-        null=True,  
+        null=True,
         blank=True,
     )
     cars = models.ManyToManyField(
         "cars_details.CarsDetails",
         related_name="car",
-        null=True,  
+        null=True,
         blank=True,
     )
     location = models.CharField(max_length=256, null=False, blank=False)

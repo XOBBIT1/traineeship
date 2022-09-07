@@ -4,6 +4,3 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 from .models import Salon
-
-def index(request):
-    return render(request, 'salon/main.html')

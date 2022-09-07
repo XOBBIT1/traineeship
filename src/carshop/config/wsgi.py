@@ -1,1 +1,1 @@
-WSGI_APPLICATION = 'src.carshop.wsgi.application'
+WSGI_APPLICATION = "src.carshop.wsgi.application"
