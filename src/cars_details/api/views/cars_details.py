@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from rest_framework import generics, viewsets
-from src.profile.api.serializers.profile import RegisterSerializer
+from src.cars_details.api.serializers.cars_details import CarsDetailsSerializer
 from rest_framework.response import Response
-from src.profile.models import Profile
+from src.cars_details.models import CarsDetails
 
 
-class RegisterView(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = RegisterSerializer
+class CarsDetailsView(viewsets.ModelViewSet):
+    queryset = CarsDetails.objects.all()
+    serializer_class = CarsDetailsSerializer
 
     def post(self, request):
         user = request.data

@@ -1,7 +1,3 @@
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -17,4 +13,5 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "rest_framework",
     "drf_spectacular",
+    "django_countries",
 ]

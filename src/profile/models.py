@@ -9,15 +9,21 @@ from django.contrib.auth.models import (
 
 
 class ProfileManager(BaseUserManager):
-    def create_user(self, username, email, password=None):
+    def create_user(self, username, email, bio, description, cars, password=None):
         if username is None:
             raise TypeError("User without username - not user!!!!")
-        if email is None:
+        if not email:
             raise TypeError("User without email - Dangemaster!")
         if password is None:
             raise FutureWarning("User please!!!! Create the password!")
 
-        user = self.model(username=username, email=self.normalize_email(email))
+        user = self.model(
+            username=username,
+            bio=bio,
+            description=description,
+            email=self.normalize_email(email),
+        )
+        user.cars.set([cars])
         user.set_password(password)
         user.save()
         return user

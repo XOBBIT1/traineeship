@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from rest_framework import generics, viewsets
-from src.profile.api.serializers.profile import RegisterSerializer
+from src.provider.api.serializers.provider import ProviderSerializer
 from rest_framework.response import Response
-from src.profile.models import Profile
+from src.provider.models import Provider
 
 
-class RegisterView(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = RegisterSerializer
+class ProviderView(viewsets.ModelViewSet):
+    queryset = Provider.objects.all()
+    serializer_class = ProviderSerializer
 
     def post(self, request):
         user = request.data

@@ -1,17 +1,16 @@
 from django.shortcuts import render
 from rest_framework import generics, viewsets
-from src.profile.api.serializers.profile import RegisterSerializer
+from src.cars.api.serializers.cars import CarsSerializer
 from rest_framework.response import Response
-from src.profile.models import Profile
+from src.cars.models import Cars
 
 
-class RegisterView(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = RegisterSerializer
+class CarsView(viewsets.ModelViewSet):
+    queryset = Cars.objects.all()
+    serializer_class = CarsSerializer
 
     def post(self, request):
-        user = request.data
-        serializer = self.serializer_class(data=user)
+        serializer = self.serializer_class(data= request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

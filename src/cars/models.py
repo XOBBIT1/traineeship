@@ -1,11 +1,15 @@
 from django.db import models
 from src.carshop.config.date_model_mixin import TimeStampMixin
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 
 
 class Cars(TimeStampMixin):
     name = models.CharField(max_length=256, null=False, blank=False)
     description = models.TextField("Description", blank=True, null=True)
-    date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(null=True, blank=True, upload_to="images/")
     cars_details = models.ManyToManyField(
         "cars_details.CarsDetails", related_name="cars_details", null=True, blank=True

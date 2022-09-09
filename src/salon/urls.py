@@ -1,5 +1,7 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from src.salon.api.router import salon_api_router
 
-
-urlpatterns = []
+urlpatterns = [
+    path("/", include(salon_api_router.urls)),
+]

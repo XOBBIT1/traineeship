@@ -1,5 +1,8 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from src.profile.api.views.profile import RegisterView
+from src.profile.api.router import profile_api_router
 
-urlpatterns = [path("_registration/", RegisterView.as_view(), name="registe")]
+urlpatterns = [
+    path("/", include(profile_api_router.urls)),
+]

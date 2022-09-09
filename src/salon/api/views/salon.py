@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from rest_framework import generics, viewsets
-from src.profile.api.serializers.profile import RegisterSerializer
+from src.salon.api.serializers.salon import SalonSerializer
 from rest_framework.response import Response
-from src.profile.models import Profile
+from src.salon.models import Salon
 
 
-class RegisterView(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = RegisterSerializer
+class SalonView(viewsets.ModelViewSet):
+    queryset = Salon.objects.all()
+    serializer_class = SalonSerializer
 
     def post(self, request):
         user = request.data
