@@ -2,11 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django_countries.fields import CountryField
 from src.carshop.config.date_model_mixin import TimeStampMixin
-from django.contrib.auth.models import (
-    AbstractBaseUser,
-    BaseUserManager,
-    PermissionsMixin,
-)
 
 
 class Salon(TimeStampMixin):
@@ -26,7 +21,7 @@ class Salon(TimeStampMixin):
         null=True,
         blank=True,
     )
-    location = CountryField(multiple=True)
+    location = CountryField()
     image = models.ImageField(null=True, blank=True, upload_to="images/")
     is_active = models.BooleanField(default=True)
 

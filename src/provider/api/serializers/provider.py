@@ -14,5 +14,3 @@ class ProviderSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Error")
         return attrs
 
-    def create(self, validated_data):
-        return Provider.objects.create_user(**validated_data)

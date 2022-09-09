@@ -1,22 +1,5 @@
 from django.db import models
 from src.carshop.config.date_model_mixin import TimeStampMixin
-from django.contrib.auth.models import (
-    AbstractBaseUser,
-    BaseUserManager,
-    PermissionsMixin,
-)
-
-
-class ProviderManager(BaseUserManager):
-    def create_user(self, name, description, cars, salons):
-        if name is None:
-            raise TypeError("User without username - not user!!!!")
-        if description is None:
-            raise TypeError("User without email - Dangemaster!")
-
-        user = self.model(name=name, description=description, cars=cars, salons=salons)
-        user.save()
-        return user
 
 
 class Provider(TimeStampMixin):
@@ -32,4 +15,3 @@ class Provider(TimeStampMixin):
     )
     is_active = models.BooleanField(default=True)
 
-    objects = ProviderManager()

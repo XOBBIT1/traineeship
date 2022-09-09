@@ -14,7 +14,12 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = "True"
 ALLOWED_HOSTS = ["*"]
 
-REST_FRAMEWORK = {"DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"}
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
 
 ROOT_URLCONF = "src.carshop.urls"
 
@@ -31,3 +36,5 @@ USE_TZ = True
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+EXCHANGE_BACKEND = "djmoney.contrib.exchange.backends.FixerBackend"
