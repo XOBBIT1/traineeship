@@ -7,7 +7,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ["email", "username", "password", "bio", "description", "cars"]
+        fields = ["email", "username", "password", "bio", "description"]
+        extra_kwargs = {
+            "password": {"write_only": True}
+        }
 
     def validate(self, attrs):
         email = attrs.get("email", "")
@@ -18,4 +21,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        return Profile.objects.create_user(**validated_data)
+        password = validated_data.pop("password", None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
+
+
+class EmailSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=555)
+
+    class Meta:
+        model = Profile
+        fields = ["token"]
