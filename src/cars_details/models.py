@@ -28,4 +28,3 @@ class CarsDetails(TimeStampMixin):
 
 class Color(TimeStampMixin):
     name = models.CharField(max_length=256, null=False, blank=False)
-

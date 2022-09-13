@@ -19,3 +19,4 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(blank=True, null=True, related_name='cars_details', to='cars_details.CarsDetails'),
         ),
     ]
+
