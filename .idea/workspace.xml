@@ -1,42 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="edbc61b6-b794-42aa-8d46-ea38dc823321" name="Changes" comment="starting the money payment system">
+    <list default="true" id="edbc61b6-b794-42aa-8d46-ea38dc823321" name="Changes" comment="fixed models error">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_02_09_2022_11_08__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_02_09_2022_11_08__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars/api/router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars/api/router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars/api/serializers/cars.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars/api/serializers/cars.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars/api/views/cars.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars/api/views/cars.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars/migrations/0002_cars_cars_details.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars/migrations/0002_cars_cars_details.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars/migrations/0003_cars_provider.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars/migrations/0003_cars_provider.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars/migrations/0004_alter_cars_description.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars/migrations/0004_alter_cars_description.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars/migrations/0005_auto_20220904_1705.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars/migrations/0005_auto_20220904_1705.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars_details/api/router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars_details/api/router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars_details/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars_details/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars_details/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars_details/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cars_details/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cars_details/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/profile/api/router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/profile/api/router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/profile/api/serializers/profile.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/profile/api/serializers/profile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/profile/api/views/profile.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/profile/api/views/profile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/profile/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/profile/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/profile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/profile/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/profile/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/profile/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/provider/api/router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/provider/api/router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/provider/api/serializers/provider.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/provider/api/serializers/provider.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/provider/api/views/provider.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/provider/api/views/provider.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/provider/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/provider/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/provider/migrations/0002_provider_salons.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/provider/migrations/0002_provider_salons.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/provider/migrations/0003_auto_20220904_1705.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/provider/migrations/0003_auto_20220904_1705.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/provider/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/provider/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/provider/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/provider/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/salon/api/serializers/salon.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/salon/api/serializers/salon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/salon/api/views/salon.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/salon/api/views/salon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/salon/migrations/0002_auto_20220904_1705.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/salon/migrations/0002_auto_20220904_1705.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/salon/migrations/0005_alter_salon_name_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/salon/migrations/0005_alter_salon_name_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/salon/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/salon/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +22,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="cars_" />
+        <entry key="$PROJECT_DIR$" value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -117,6 +85,11 @@
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="e63bfe1d-889e-4d63-9baf-c09afbf0fed0">
           <value>
             <State />
           </value>
