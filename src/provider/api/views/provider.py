@@ -1,8 +1,8 @@
+from src.provider.models import Provider
+from src.provider.api.serializers.provider import ProviderSerializer
 from django.shortcuts import render
 from rest_framework import generics, viewsets
-from src.provider.api.serializers.provider import ProviderSerializer
 from rest_framework.response import Response
-from src.provider.models import Provider
 
 
 class ProviderView(viewsets.ModelViewSet):

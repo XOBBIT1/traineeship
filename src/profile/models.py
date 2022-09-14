@@ -1,5 +1,5 @@
-from django.db import models
 from src.carshop.config.date_model_mixin import TimeStampMixin
+from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -48,4 +48,3 @@ class Profile(TimeStampMixin, AbstractBaseUser):
 
     def __str__(self):
         return self.email
-

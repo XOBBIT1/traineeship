@@ -1,8 +1,9 @@
+from src.profile.api.serializers.profile import RegisterSerializer
+from src.profile.models import Profile
 from django.shortcuts import render
 from rest_framework import generics, viewsets
-from src.profile.api.serializers.profile import RegisterSerializer
 from rest_framework.response import Response
-from src.profile.models import Profile
+
 
 
 class RegisterView(viewsets.ModelViewSet):

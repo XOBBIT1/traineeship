@@ -1,5 +1,6 @@
-from django.db import models
 from src.carshop.config.date_model_mixin import TimeStampMixin
+from django.db import models
+
 
 
 class Provider(TimeStampMixin):
@@ -14,4 +15,3 @@ class Provider(TimeStampMixin):
         "salon.Salon", related_name="salon", null=True, blank=True
     )
     is_active = models.BooleanField(default=True)
-

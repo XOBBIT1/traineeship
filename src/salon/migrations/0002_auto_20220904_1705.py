@@ -6,20 +6,27 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cars_details', '0001_initial'),
-        ('provider', '0003_auto_20220904_1705'),
-        ('salon', '0001_initial'),
+        ("cars_details", "0001_initial"),
+        ("provider", "0003_auto_20220904_1705"),
+        ("salon", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='salon',
-            name='cars',
-            field=models.ManyToManyField(blank=True, null=True, related_name='car', to='cars_details.CarsDetails'),
+            model_name="salon",
+            name="cars",
+            field=models.ManyToManyField(
+                blank=True, null=True, related_name="car", to="cars_details.CarsDetails"
+            ),
         ),
         migrations.AlterField(
-            model_name='salon',
-            name='name_provider',
-            field=models.ManyToManyField(blank=True, null=True, related_name='provider_salon', to='provider.Provider'),
+            model_name="salon",
+            name="name_provider",
+            field=models.ManyToManyField(
+                blank=True,
+                null=True,
+                related_name="provider_salon",
+                to="provider.Provider",
+            ),
         ),
     ]
