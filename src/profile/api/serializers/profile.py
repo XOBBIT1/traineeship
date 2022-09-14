@@ -42,3 +42,11 @@ class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ["email", "password"]
+
+
+class BuySerializer(serializers.ModelSerializer):
+    car = serializers.CharField(max_length=50)
+
+    class Meta:
+        model = Profile
+        fields = ["car"]

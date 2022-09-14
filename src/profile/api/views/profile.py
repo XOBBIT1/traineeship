@@ -7,6 +7,7 @@ from src.profile.api.serializers.profile import (
     RegisterSerializer,
     EmailSerializer,
     LoginSerializer,
+    BuySerializer,
 )
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -146,3 +147,10 @@ class LogoutView(views.APIView):
         response.data = {"message": "success"}
 
         return response
+
+
+class BuyView(views.APIView):
+    serializer_class = BuySerializer
+
+    def post(self, request):
+        pass

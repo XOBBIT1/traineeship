@@ -7,7 +7,7 @@ from django_countries.serializers import CountryFieldMixin
 class SalonSerializer(CountryFieldMixin, serializers.ModelSerializer):
     class Meta:
         model = Salon
-        fields = ["name", "location", "name_client", "name_provider", "car"]
+        fields = ["name", "location"]
         widgets = {"location": CountrySelectWidget()}
 
     def validate(self, attrs):
@@ -16,3 +16,11 @@ class SalonSerializer(CountryFieldMixin, serializers.ModelSerializer):
         if not name.isalnum():
             raise serializers.ValidationError("Error")
         return attrs
+
+
+class BuySerializer(serializers.ModelSerializer):
+    car = serializers.CharField(max_length=50)
+
+    class Meta:
+        model = Salon
+        fields = ["car"]

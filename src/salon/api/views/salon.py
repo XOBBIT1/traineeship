@@ -1,5 +1,6 @@
+from src.salon.api.serializers.salon import BuySerializer
 from django.shortcuts import render
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, views
 from src.salon.api.serializers.salon import SalonSerializer
 from rest_framework.response import Response
 from src.salon.models import Salon
@@ -18,3 +19,10 @@ class SalonView(viewsets.ModelViewSet):
         user_data = serializer.data
 
         return Response(user_data, status=status.HTTP_201_CREATED)
+
+
+class BuyView(views.APIView):
+    serializer_class = BuySerializer
+
+    def post(self, request):
+        pass

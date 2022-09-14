@@ -5,7 +5,7 @@ from src.cars.models import Cars
 class CarsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cars
-        fields = ["name", "description", "cars_details", "provider", "price"]
+        fields = ["name", "description",  "price", "provider"]
 
     def validate(self, attrs):
         name = attrs.get("name", "")
