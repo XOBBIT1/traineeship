@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1f4aa04247bba1005576614a53937839d7296492c18d2880d0f7db83eecb1400"
+            "sha256": "1bf8d0b4b680af4f88261252b884152e5b345a8f2de278fe664bde3a721b7c70"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -402,6 +402,13 @@
             ],
             "index": "pypi",
             "version": "==4.4.0"
+        },
+        "jwt": {
+            "hashes": [
+                "sha256:61c9170f92e736b530655e75374681d4fcca9cfa8763ab42be57353b2b203494"
+            ],
+            "index": "pypi",
+            "version": "==1.3.1"
         },
         "moviepy": {
             "hashes": [
@@ -815,7 +822,7 @@
                 "sha256:2e24e0bec025f035a2e72cdd1961119f557d78ad331bb00ff82efb2ab8da8e82",
                 "sha256:7732871f4f7fa58fb6bdcaeadb0161b2bd046c85905dbaa066bdcbcc81953b57"
             ],
-            "markers": "python_version >= '3.7'",
+            "markers": "python_full_version >= '3.7.0'",
             "version": "==65.3.0"
         },
         "shortcuts": {

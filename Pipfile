@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+requests = "==2.27.1"
 altgraph = "==0.17.2"
 apscheduler = "==3.6.3"
 asgiref = "==3.5.0"
@@ -69,7 +70,6 @@ pyttsx3 = "==2.90"
 pytz = "==2022.1"
 pytz-deprecation-shim = "==0.1.0.post0"
 pyyaml = "==6.0"
-requests = "==2.27.1"
 rfc3986 = "==1.5.0"
 schedule = "==1.1.0"
 selenium = "==4.2.0"
@@ -94,8 +94,10 @@ urllib3 = "==1.26.9"
 webdriver-manager = "==3.7.0"
 whois = "==0.9.13"
 wsproto = "==1.1.0"
+jwt = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.10"
+

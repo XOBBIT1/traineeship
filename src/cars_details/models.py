@@ -1,5 +1,10 @@
 from django.db import models
 from src.carshop.config.date_model_mixin import TimeStampMixin
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 
 
 class CarsDetails(TimeStampMixin):
@@ -20,5 +25,8 @@ class CarsDetails(TimeStampMixin):
     is_active = models.BooleanField(default=True)
 
 
+
 class Color(TimeStampMixin):
     name = models.CharField(max_length=256, null=False, blank=False)
+
+

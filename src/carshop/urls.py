@@ -13,11 +13,33 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
+from drf_spectacular.views import (
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+    SpectacularAPIView,
+)
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("__debug__/", include("debug_toolbar.urls")),
     path("", include("src.salon.urls")),
+    path("profile", include("src.profile.urls")),
+    path("cars", include("src.cars.urls")),
+    path("salon", include("src.salon.urls")),
+    path("provider", include("src.provider.urls")),
+    path("cars_details", include("src.cars_details.urls")),
+    path("profile", include("django.contrib.auth.urls")),
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/swagger/", SpectacularSwaggerView.as_view(), name="swagger-ui"),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns += (path("__debug__/", include("debug_toolbar.urls")),)
