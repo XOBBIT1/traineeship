@@ -1,0 +1,494 @@
+Index: src/salon/urls.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.urls import path\r\nfrom . import views\r\n\r\n\r\nurlpatterns = []\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/salon/urls.py b/src/salon/urls.py
+--- a/src/salon/urls.py	
++++ b/src/salon/urls.py	
+@@ -1,5 +1,7 @@
+-from django.urls import path
++from django.urls import path, include
++from src.salon.api.router import salon_api_router
+ from . import views
+ 
+-
+-urlpatterns = []
++urlpatterns = [
++    path("/", include(salon_api_router.urls)),
++]
+Index: src/salon/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.contrib.auth.models import User\r\nfrom django.db import models\r\nfrom src.carshop.config.date_model_mixin import TimeStampMixin\r\nfrom src.profile.models import Profile\r\n\r\n\r\nclass Salon(TimeStampMixin):\r\n    name = models.CharField(max_length=256, null=False, blank=False)\r\n    name_client = models.ForeignKey(\r\n        Profile, related_name=\"client\", on_delete=models.PROTECT, null=True\r\n    )\r\n    name_provider = models.ManyToManyField(\r\n        \"provider.Provider\",\r\n        related_name=\"provider_salon\",\r\n        null=True,\r\n        blank=True,\r\n    )\r\n    cars = models.ManyToManyField(\r\n        \"cars_details.CarsDetails\",\r\n        related_name=\"car\",\r\n        null=True,\r\n        blank=True,\r\n    )\r\n    location = models.CharField(max_length=256, null=False, blank=False)\r\n    image = models.ImageField(null=True, blank=True, upload_to=\"images/\")\r\n    is_active = models.BooleanField(default=True)\r\n\r\n    def __str__(self):\r\n        return self.name\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/salon/models.py b/src/salon/models.py
+--- a/src/salon/models.py	
++++ b/src/salon/models.py	
+@@ -2,6 +2,26 @@
+ from django.db import models
+ from src.carshop.config.date_model_mixin import TimeStampMixin
+ from src.profile.models import Profile
++from django.contrib.auth.models import (
++    AbstractBaseUser,
++    BaseUserManager,
++    PermissionsMixin,
++)
++
++
++class SalonManager(BaseUserManager):
++    def create_car_detail(self, name, location):
++        if name is None:
++            raise TypeError("User without username - not user!!!!")
++        if location is None:
++            raise TypeError("Car without description - Dangemaster!")
++
++        user = self.model(
++            name=name,
++            description=description,
++        )
++        user.save()
++        return user
+ 
+ 
+ class Salon(TimeStampMixin):
+@@ -27,3 +47,5 @@
+ 
+     def __str__(self):
+         return self.name
++
++    objects = SalonManager()
+Index: src/provider/api/views/provider.py
+===================================================================
+diff --git a/src/provider/api/views/provider.py b/src/provider/api/views/provider.py
+new file mode 100644
+--- /dev/null	
++++ b/src/provider/api/views/provider.py	
+@@ -0,0 +1,29 @@
++from django.shortcuts import render
++from rest_framework.mixins import (
++    CreateModelMixin,
++    RetrieveModelMixin,
++    DestroyModelMixin,
++)
++from rest_framework import generics, status, viewsets
++from src.provider.api.serializers.provider import ProviderSerializer
++from rest_framework.response import Response
++from src.provider.models import Provider
++from rest_framework.parsers import MultiPartParser, JSONParser, FormParser
++
++
++class ProviderView(viewsets.ModelViewSet):
++
++    serializer_class = ProviderSerializer
++    queryset = Provider.objects.all()
++
++    def post(self, request, *args, **kwargs):
++        user = request.data
++        serializer = self.serializer_class(data=user)
++        serializer.is_valid(raise_exception=True)
++        serializer.save()
++
++        user_data = serializer.data
++
++        return Response(user_data, status=status.HTTP_201_CREATED)
++
++    parser_classes = [FormParser, MultiPartParser, JSONParser]
+Index: src/provider/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.db import models\r\nfrom src.carshop.config.date_model_mixin import TimeStampMixin\r\n\r\n\r\nclass Provider(TimeStampMixin):\r\n    name = models.CharField(max_length=256, null=False, blank=False)\r\n    description = models.TextField(\"Description\", blank=False, null=False)\r\n    date = models.DateTimeField(auto_now_add=True)\r\n    image = models.ImageField(null=True, blank=True, upload_to=\"images/\")\r\n    cars = models.ManyToManyField(\r\n        \"cars.Cars\", related_name=\"car\", null=True, blank=True\r\n    )\r\n    salons = models.ManyToManyField(\r\n        \"salon.Salon\", related_name=\"salon\", null=True, blank=True\r\n    )\r\n    is_active = models.BooleanField(default=True)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/provider/models.py b/src/provider/models.py
+--- a/src/provider/models.py	
++++ b/src/provider/models.py	
+@@ -1,11 +1,30 @@
+ from django.db import models
+ from src.carshop.config.date_model_mixin import TimeStampMixin
++from django.contrib.auth.models import (
++    AbstractBaseUser,
++    BaseUserManager,
++    PermissionsMixin,
++)
++
++
++class ProviderManager(BaseUserManager):
++    def create_provider(self, name, description):
++        if name is None:
++            raise TypeError("User without username - not user!!!!")
++        if description is None:
++            raise TypeError("Car without description - Dangemaster!")
++
++        user = self.model(
++            name=name,
++            description=description,
++        )
++        user.save()
++        return user
+ 
+ 
+ class Provider(TimeStampMixin):
+     name = models.CharField(max_length=256, null=False, blank=False)
+     description = models.TextField("Description", blank=False, null=False)
+-    date = models.DateTimeField(auto_now_add=True)
+     image = models.ImageField(null=True, blank=True, upload_to="images/")
+     cars = models.ManyToManyField(
+         "cars.Cars", related_name="car", null=True, blank=True
+@@ -14,3 +33,5 @@
+         "salon.Salon", related_name="salon", null=True, blank=True
+     )
+     is_active = models.BooleanField(default=True)
++
++    objects = ProviderManager()
+Index: src/provider/urls.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/provider/urls.py b/src/provider/urls.py
+--- a/src/provider/urls.py	
++++ b/src/provider/urls.py	
+@@ -1,0 +1,7 @@
++from django.urls import path, include
++from src.provider.api.router import provider_api_router
++from . import views
++
++urlpatterns = [
++    path("/", include(provider_api_router.urls)),
++]
+Index: src/salon/api/views/salon.py
+===================================================================
+diff --git a/src/salon/api/views/salon.py b/src/salon/api/views/salon.py
+new file mode 100644
+--- /dev/null	
++++ b/src/salon/api/views/salon.py	
+@@ -0,0 +1,29 @@
++from django.shortcuts import render
++from rest_framework.mixins import (
++    CreateModelMixin,
++    RetrieveModelMixin,
++    DestroyModelMixin,
++)
++from rest_framework import generics, status, viewsets
++from src.salon.api.serializers.salon import SalonSerializer
++from rest_framework.response import Response
++from src.salon.models import Salon
++from rest_framework.parsers import MultiPartParser, JSONParser, FormParser
++
++
++class SalonView(viewsets.ModelViewSet):
++
++    serializer_class = SalonSerializer
++    queryset = Salon.objects.all()
++
++    def post(self, request, *args, **kwargs):
++        user = request.data
++        serializer = self.serializer_class(data=user)
++        serializer.is_valid(raise_exception=True)
++        serializer.save()
++
++        user_data = serializer.data
++
++        return Response(user_data, status=status.HTTP_201_CREATED)
++
++    parser_classes = [FormParser, MultiPartParser, JSONParser]
+Index: src/profile/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.db import models\r\nfrom src.carshop.config.date_model_mixin import TimeStampMixin\r\nfrom django.contrib.auth.models import User\r\nfrom django.contrib.auth.models import (\r\n    AbstractBaseUser,\r\n    BaseUserManager,\r\n    PermissionsMixin,\r\n)\r\n\r\n\r\nclass ProfileManager(BaseUserManager):\r\n    def create_user(self, username, email, password=None):\r\n        if username is None:\r\n            raise TypeError(\"User without username - not user!!!!\")\r\n        if email is None:\r\n            raise TypeError(\"User without email - Dangemaster!\")\r\n        if password is None:\r\n            raise FutureWarning(\"User please!!!! Create the password!\")\r\n\r\n        user = self.model(username=username, email=self.normalize_email(email))\r\n        user.set_password(password)\r\n        user.save()\r\n        return user\r\n\r\n\r\nclass Profile(TimeStampMixin, AbstractBaseUser):\r\n    username = models.CharField(max_length=256, unique=True, null=False, blank=False)\r\n    email = models.EmailField(\r\n        max_length=256, unique=True, null=False, db_index=True, blank=False\r\n    )\r\n    description = models.TextField(\"Description\", blank=False, null=False)\r\n    image = models.ImageField(null=True, blank=True, upload_to=\"images/\")\r\n    cars = models.ManyToManyField(\"cars.Cars\", related_name=\"car_profile\", null=True)\r\n    bio = models.TextField(null=True, blank=True)\r\n    is_active = models.BooleanField(default=True)\r\n    is_verified = models.BooleanField(default=False)\r\n\r\n    USERNAME_FIELD = \"email\"\r\n    REQUIRED_FIELDS = [\"username\"]\r\n\r\n    objects = ProfileManager()\r\n\r\n    def __str__(self):\r\n        return self.email\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/profile/models.py b/src/profile/models.py
+--- a/src/profile/models.py	
++++ b/src/profile/models.py	
+@@ -9,7 +9,7 @@
+ 
+ 
+ class ProfileManager(BaseUserManager):
+-    def create_user(self, username, email, password=None):
++    def create_user(self, username, email, bio, description, password=None):
+         if username is None:
+             raise TypeError("User without username - not user!!!!")
+         if email is None:
+@@ -17,7 +17,12 @@
+         if password is None:
+             raise FutureWarning("User please!!!! Create the password!")
+ 
+-        user = self.model(username=username, email=self.normalize_email(email))
++        user = self.model(
++            username=username,
++            email=self.normalize_email(email),
++            bio=bio,
++            description=description,
++        )
+         user.set_password(password)
+         user.save()
+         return user
+Index: src/profile/urls.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.urls import path\r\nfrom . import views\r\nfrom src.profile.api.views.profile import RegisterView\r\n\r\nurlpatterns = [path(\"_registration/\", RegisterView.as_view(), name=\"registe\")]\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/profile/urls.py b/src/profile/urls.py
+--- a/src/profile/urls.py	
++++ b/src/profile/urls.py	
+@@ -1,5 +1,8 @@
+-from django.urls import path
++from django.urls import path, include
++from src.profile.api.router import profiel_api_router
+ from . import views
+ from src.profile.api.views.profile import RegisterView
+ 
+-urlpatterns = [path("_registration/", RegisterView.as_view(), name="registe")]
++urlpatterns = [
++    path("/", include(profiel_api_router.urls)),
++]
+Index: src/provider/api/serializers/provider.py
+===================================================================
+diff --git a/src/provider/api/serializers/provider.py b/src/provider/api/serializers/provider.py
+new file mode 100644
+--- /dev/null	
++++ b/src/provider/api/serializers/provider.py	
+@@ -0,0 +1,20 @@
++from rest_framework import serializers
++from src.provider.models import Provider
++
++
++class ProviderSerializer(serializers.ModelSerializer):
++    # image = serializers.ImageField(required=True, allow_null=False)
++
++    class Meta:
++        model = Provider
++        fields = ["name", "description"]
++
++    def validate(self, attrs):
++        name = attrs.get("name", "")
++
++        if not name.isalnum():
++            raise serializers.ValidationError("Error")
++        return attrs
++
++    def create(self, validated_data):
++        return Provider.objects.create_provider(**validated_data)
+Index: src/cars/api/router.py
+===================================================================
+diff --git a/src/cars/api/router.py b/src/cars/api/router.py
+new file mode 100644
+--- /dev/null	
++++ b/src/cars/api/router.py	
+@@ -0,0 +1,7 @@
++from rest_framework import routers
++
++from src.cars.api.views.cars import CarsView
++
++cars_api_router = routers.DefaultRouter()
++
++cars_api_router.register("cars", CarsView)
+Index: src/cars/api/views/cars.py
+===================================================================
+diff --git a/src/cars/api/views/cars.py b/src/cars/api/views/cars.py
+new file mode 100644
+--- /dev/null	
++++ b/src/cars/api/views/cars.py	
+@@ -0,0 +1,24 @@
++from django.shortcuts import render
++from rest_framework import generics, status, viewsets
++from src.cars.api.serializers.cars import CarSerializer
++from rest_framework.response import Response
++from src.cars.models import Cars
++from rest_framework.parsers import MultiPartParser, JSONParser, FormParser
++
++
++class CarsView(viewsets.ModelViewSet):
++
++    serializer_class = CarSerializer
++    queryset = Cars.objects.all()
++
++    def post(self, request, *args, **kwargs):
++        user = request.data
++        serializer = self.serializer_class(data=user)
++        serializer.is_valid(raise_exception=True)
++        serializer.save()
++
++        user_data = serializer.data
++
++        return Response(user_data, status=status.HTTP_201_CREATED)
++
++    parser_classes = [FormParser, MultiPartParser, JSONParser]
+Index: src/carshop/urls.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"\"\"carshop URL Configuration\r\n\r\nThe `urlpatterns` list routes URLs to views. For more information please see:\r\n    https://docs.djangoproject.com/en/3.2/topics/http/urls/\r\nExamples:\r\nFunction views\r\n    1. Add an import:  from my_app import views\r\n    2. Add a URL to urlpatterns:  path('', views.home, name='home')\r\nClass-based views\r\n    1. Add an import:  from other_app.views import Home\r\n    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')\r\nIncluding another URLconf\r\n    1. Import the include() function: from django.urls import include, path\r\n    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))\r\n\"\"\"\r\nfrom django.contrib import admin\r\nfrom django.urls import path, include\r\nfrom drf_spectacular.views import (\r\n    SpectacularRedocView,\r\n    SpectacularSwaggerView,\r\n    SpectacularAPIView,\r\n)\r\n\r\nurlpatterns = [\r\n    path(\"admin/\", admin.site.urls),\r\n    path(\"__debug__/\", include(\"debug_toolbar.urls\")),\r\n    path(\"\", include(\"src.salon.urls\")),\r\n    path(\"profile\", include(\"src.profile.urls\")),\r\n    path(\"profile\", include(\"django.contrib.auth.urls\")),\r\n    path(\"api/schema/\", SpectacularAPIView.as_view(), name=\"schema\"),\r\n    path(\"api/swagger/\", SpectacularSwaggerView.as_view(), name=\"swagger-ui\"),\r\n]\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/carshop/urls.py b/src/carshop/urls.py
+--- a/src/carshop/urls.py	
++++ b/src/carshop/urls.py	
+@@ -26,6 +26,10 @@
+     path("__debug__/", include("debug_toolbar.urls")),
+     path("", include("src.salon.urls")),
+     path("profile", include("src.profile.urls")),
++    path("cars", include("src.cars.urls")),
++    path("salon", include("src.salon.urls")),
++    path("cars_details", include("src.cars_details.urls")),
++    path("provider", include("src.provider.urls")),
+     path("profile", include("django.contrib.auth.urls")),
+     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+     path("api/swagger/", SpectacularSwaggerView.as_view(), name="swagger-ui"),
+Index: src/salon/api/serializers/salon.py
+===================================================================
+diff --git a/src/salon/api/serializers/salon.py b/src/salon/api/serializers/salon.py
+new file mode 100644
+--- /dev/null	
++++ b/src/salon/api/serializers/salon.py	
+@@ -0,0 +1,20 @@
++from rest_framework import serializers
++from src.salon.models import Salon
++
++
++class SalonSerializer(serializers.ModelSerializer):
++    # image = serializers.ImageField(required=True, allow_null=False)
++
++    class Meta:
++        model = Salon
++        fields = ["name", "location"]
++
++    def validate(self, attrs):
++        name = attrs.get("name", "")
++
++        if not name.isalnum():
++            raise serializers.ValidationError("Error")
++        return attrs
++
++    def create(self, validated_data):
++        return Salon.objects.create_salon(**validated_data)
+Index: src/cars_details/api/serializers/cars_details.py
+===================================================================
+diff --git a/src/cars_details/api/serializers/cars_details.py b/src/cars_details/api/serializers/cars_details.py
+new file mode 100644
+--- /dev/null	
++++ b/src/cars_details/api/serializers/cars_details.py	
+@@ -0,0 +1,20 @@
++from rest_framework import serializers
++from src.cars_details.models import CarsDetails
++
++
++class CarsDetailsSerializer(serializers.ModelSerializer):
++    # image = serializers.ImageField(required=True, allow_null=False)
++
++    class Meta:
++        model = CarsDetails
++        fields = ["name", "description", "color"]
++
++    def validate(self, attrs):
++        name = attrs.get("name", "")
++
++        if not name.isalnum():
++            raise serializers.ValidationError("Error")
++        return attrs
++
++    def create(self, validated_data):
++        return CarsDetails.objects.create_car_detail(**validated_data)
+Index: src/profile/api/serializers/profile.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from rest_framework import serializers\r\nfrom src.profile.models import Profile\r\n\r\n\r\nclass RegisterSerializer(serializers.ModelSerializer):\r\n    password = serializers.CharField(max_length=68, write_only=True)\r\n\r\n    class Meta:\r\n        model = Profile\r\n        fields = [\"email\", \"username\", \"password\"]\r\n\r\n    def validate(self, attrs):\r\n        email = attrs.get(\"email\", \"\")\r\n        username = attrs.get(\"username\", \"\")\r\n\r\n        if not username.isalnum():\r\n            raise serializers.ValidationError(\"Error\")\r\n        return attrs\r\n\r\n    def create(self, validated_data):\r\n        return Profile.objects.create_user(**validated_data)\r\n
+===================================================================
+diff --git a/src/profile/api/serializers/profile.py b/src/profile/api/serializers/profile.py
+--- a/src/profile/api/serializers/profile.py	
++++ b/src/profile/api/serializers/profile.py	
+@@ -4,10 +4,11 @@
+ 
+ class RegisterSerializer(serializers.ModelSerializer):
+     password = serializers.CharField(max_length=68, write_only=True)
++    # image = serializers.ImageField(required=True, allow_null=False)
+ 
+     class Meta:
+         model = Profile
+-        fields = ["email", "username", "password"]
++        fields = ["email", "username", "password", "bio", "description", "cars"]
+ 
+     def validate(self, attrs):
+         email = attrs.get("email", "")
+Index: src/profile/api/views/profile.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.shortcuts import render\r\nfrom rest_framework import generics\r\nfrom src.profile.api.serializers.profile import RegisterSerializer\r\nfrom rest_framework.response import Response\r\n\r\n\r\nclass RegisterView(generics.GenericAPIView):\r\n\r\n    serializer_class = RegisterSerializer\r\n\r\n    def post(self, request):\r\n        user = request.data\r\n        serializer = self.serializer_class(data=user)\r\n        serializer.is_valid(raise_exception=True)\r\n        serializer.save()\r\n\r\n        user_data = serializer.data\r\n\r\n        return Response(user_data, status=status.HTTP_201_CREATED)\r\n
+===================================================================
+diff --git a/src/profile/api/views/profile.py b/src/profile/api/views/profile.py
+--- a/src/profile/api/views/profile.py	
++++ b/src/profile/api/views/profile.py	
+@@ -1,14 +1,17 @@
+ from django.shortcuts import render
+-from rest_framework import generics
++from rest_framework import generics, status, viewsets
+ from src.profile.api.serializers.profile import RegisterSerializer
+ from rest_framework.response import Response
++from src.profile.models import Profile
++from rest_framework.parsers import MultiPartParser, JSONParser, FormParser
+ 
+ 
+-class RegisterView(generics.GenericAPIView):
++class RegisterView(viewsets.ModelViewSet):
+ 
+     serializer_class = RegisterSerializer
++    queryset = Profile.objects.all()
+ 
+-    def post(self, request):
++    def post(self, request, *args, **kwargs):
+         user = request.data
+         serializer = self.serializer_class(data=user)
+         serializer.is_valid(raise_exception=True)
+@@ -17,3 +20,5 @@
+         user_data = serializer.data
+ 
+         return Response(user_data, status=status.HTTP_201_CREATED)
++
++    parser_classes = [FormParser, MultiPartParser, JSONParser]
+Index: src/profile/api/router.py
+===================================================================
+diff --git a/src/profile/api/router.py b/src/profile/api/router.py
+--- a/src/profile/api/router.py	
++++ b/src/profile/api/router.py	
+@@ -1,0 +1,7 @@
++from rest_framework import routers
++
++from src.profile.api.views.profile import RegisterView
++
++profiel_api_router = routers.DefaultRouter()
++
++profiel_api_router.register("profile", RegisterView)
+diff --git a/src/cars_details/api/__init__.py b/src/cars_details/api/__init__.py
+new file mode 100644
+diff --git a/src/cars/api/serializers/__init__.py b/src/cars/api/serializers/__init__.py
+new file mode 100644
+diff --git a/src/provider/api/__init__.py b/src/provider/api/__init__.py
+new file mode 100644
+diff --git a/src/provider/api/views/__init__.py b/src/provider/api/views/__init__.py
+new file mode 100644
+diff --git a/src/cars_details/api/serializers/__init__.py b/src/cars_details/api/serializers/__init__.py
+new file mode 100644
+diff --git a/src/cars/api/__init__.py b/src/cars/api/__init__.py
+new file mode 100644
+diff --git a/src/provider/api/serializers/__init__.py b/src/provider/api/serializers/__init__.py
+new file mode 100644
+diff --git a/src/salon/api/views/__init__.py b/src/salon/api/views/__init__.py
+new file mode 100644
+diff --git a/src/cars_details/api/views/__init__.py b/src/cars_details/api/views/__init__.py
+new file mode 100644
+diff --git a/src/cars/api/views/__init__.py b/src/cars/api/views/__init__.py
+new file mode 100644
+diff --git a/src/salon/api/serializers/__init__.py b/src/salon/api/serializers/__init__.py
+new file mode 100644
+diff --git a/src/salon/api/__init__.py b/src/salon/api/__init__.py
+new file mode 100644

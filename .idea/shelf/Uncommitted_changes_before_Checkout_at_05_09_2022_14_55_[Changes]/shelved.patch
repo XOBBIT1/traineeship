@@ -1,0 +1,38 @@
+Index: src/carshop/urls.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"\"\"carshop URL Configuration\r\n\r\nThe `urlpatterns` list routes URLs to views. For more information please see:\r\n    https://docs.djangoproject.com/en/3.2/topics/http/urls/\r\nExamples:\r\nFunction views\r\n    1. Add an import:  from my_app import views\r\n    2. Add a URL to urlpatterns:  path('', views.home, name='home')\r\nClass-based views\r\n    1. Add an import:  from other_app.views import Home\r\n    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')\r\nIncluding another URLconf\r\n    1. Import the include() function: from django.urls import include, path\r\n    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))\r\n\"\"\"\r\nfrom django.contrib import admin\r\nfrom django.urls import path, include\r\n\r\nurlpatterns = [\r\n    path('admin/', admin.site.urls),\r\n    path('__debug__/', include('debug_toolbar.urls')),\r\n    path('', include(\"src.salon.urls\")),\r\n]\r\n
+===================================================================
+diff --git a/src/carshop/urls.py b/src/carshop/urls.py
+--- a/src/carshop/urls.py	
++++ b/src/carshop/urls.py	
+@@ -16,8 +16,12 @@
+ from django.contrib import admin
+ from django.urls import path, include
+ 
++router = routers.DefaultRouter()
++router.register(r'users', UserViewSet)
++
+ urlpatterns = [
+     path('admin/', admin.site.urls),
+     path('__debug__/', include('debug_toolbar.urls')),
+     path('', include("src.salon.urls")),
++    url(r'^api/v1/', include(router.urls)),
+ ]
+Index: src/carshop/config/apps.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>INTERNAL_IPS = [\r\n    \"127.0.0.1\",\r\n]\r\n\r\nINSTALLED_APPS = [\r\n    'django.contrib.admin',\r\n    'django.contrib.auth',\r\n    'django.contrib.contenttypes',\r\n    'django.contrib.sessions',\r\n    'django.contrib.messages',\r\n    'django.contrib.staticfiles',\r\n    \"src.salon\",\r\n    'src.cars',\r\n    'src.cars_details',\r\n    'src.profile',\r\n    'src.provider',\r\n    'debug_toolbar',\r\n\r\n]
+===================================================================
+diff --git a/src/carshop/config/apps.py b/src/carshop/config/apps.py
+--- a/src/carshop/config/apps.py	
++++ b/src/carshop/config/apps.py	
+@@ -15,5 +15,7 @@
+     'src.profile',
+     'src.provider',
+     'debug_toolbar',
++    'rest_framework',
++    'rest_framework_swagger',
+ 
+ ]
+\ No newline at end of file

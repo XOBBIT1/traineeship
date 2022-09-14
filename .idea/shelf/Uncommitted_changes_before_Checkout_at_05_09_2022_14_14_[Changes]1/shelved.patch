@@ -1,0 +1,8 @@
+Index: .env
+===================================================================
+diff --git a/.env b/.env
+new file mode 100644
+--- /dev/null	
++++ b/.env	
+@@ -0,0 +1,1 @@
++SECRET_KEY=django-insecure-f*e)hj*%cz#0l8j)%*y%nrx3ag)%!i-mx!m!0c_ia8#t1yka5k

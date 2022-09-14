@@ -1,0 +1,160 @@
+Index: src/cars_details/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.db import models\r\nfrom src.carshop.config.date_model_mixin import TimeStampMixin\r\n\r\n\r\nclass CarsDetails(TimeStampMixin):\r\n    name = models.CharField(\r\n        max_length=256,\r\n        null=False,\r\n        blank=False\r\n    )\r\n    description = models.TextField(\r\n        \"Description\",\r\n        blank=True,\r\n        null=True\r\n    )\r\n    color = image = models.ImageField(\r\n        null=True,\r\n        blank=True,\r\n        upload_to=\"images/\"\r\n    )\r\n    image = models.ImageField(\r\n        null=True,\r\n        blank=True,\r\n        upload_to=\"images/\"\r\n    )\r\n    cars = models.ManyToManyField(\r\n        \"cars.Cars\",\r\n        related_name='car_for_details',\r\n        null=True,  \r\n        blank=True\r\n    )\r\n    car_brand = models.CharField(\r\n        max_length=200,\r\n        blank=False,\r\n        null=False,\r\n    )\r\n    is_active = models.BooleanField(default=True)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/cars_details/models.py b/src/cars_details/models.py
+--- a/src/cars_details/models.py	
++++ b/src/cars_details/models.py	
+@@ -1,33 +1,34 @@
+ from django.db import models
+ from src.carshop.config.date_model_mixin import TimeStampMixin
++from django.contrib.auth.models import (
++    AbstractBaseUser,
++    BaseUserManager,
++    PermissionsMixin,
++)
++
++
++class CarsDetailsManager(BaseUserManager):
++    def create_car_detail(self, name, description):
++        if name is None:
++            raise TypeError("User without username - not user!!!!")
++        if description is None:
++            raise TypeError("Car without description - Dangemaster!")
++
++        user = self.model(
++            name=name,
++            description=description,
++        )
++        user.save()
++        return user
+ 
+ 
+ class CarsDetails(TimeStampMixin):
+-    name = models.CharField(
+-        max_length=256,
+-        null=False,
+-        blank=False
+-    )
+-    description = models.TextField(
+-        "Description",
+-        blank=True,
+-        null=True
+-    )
+-    color = image = models.ImageField(
+-        null=True,
+-        blank=True,
+-        upload_to="images/"
+-    )
+-    image = models.ImageField(
+-        null=True,
+-        blank=True,
+-        upload_to="images/"
+-    )
++    name = models.CharField(max_length=256, null=False, blank=False)
++    description = models.TextField("Description", blank=True, null=True)
++    color = image = models.ImageField(null=True, blank=True, upload_to="images/")
++    image = models.ImageField(null=True, blank=True, upload_to="images/")
+     cars = models.ManyToManyField(
+-        "cars.Cars",
+-        related_name='car_for_details',
+-        null=True,  
+-        blank=True
++        "cars.Cars", related_name="car_for_details", null=True, blank=True
+     )
+     car_brand = models.CharField(
+         max_length=200,
+@@ -35,3 +36,5 @@
+         null=False,
+     )
+     is_active = models.BooleanField(default=True)
++
++    objects = CarsDetailsManager()
+Index: src/cars_details/urls.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/cars_details/urls.py b/src/cars_details/urls.py
+--- a/src/cars_details/urls.py	
++++ b/src/cars_details/urls.py	
+@@ -1,0 +1,7 @@
++from django.urls import path, include
++from src.cars_details.api.router import cars_details_api_router
++from . import views
++
++urlpatterns = [
++    path("/", include(cars_details_api_router.urls)),
++]
+Index: src/cars/urls.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/cars/urls.py b/src/cars/urls.py
+--- a/src/cars/urls.py	
++++ b/src/cars/urls.py	
+@@ -1,0 +1,7 @@
++from django.urls import path, include
++from src.cars.api.router import cars_api_router
++from . import views
++
++urlpatterns = [
++    path("/", include(cars_api_router.urls)),
++]
+Index: src/cars/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.db import models\r\nfrom src.carshop.config.date_model_mixin import TimeStampMixin\r\n\r\n\r\nclass Cars(TimeStampMixin):\r\n    name = models.CharField(max_length=256, null=False, blank=False)\r\n    description = models.TextField(\"Description\", blank=True, null=True)\r\n    date = models.DateTimeField(auto_now_add=True)\r\n    image = models.ImageField(null=True, blank=True, upload_to=\"images/\")\r\n    cars_details = models.ManyToManyField(\r\n        \"cars_details.CarsDetails\", related_name=\"cars_details\", null=True,  \r\n        blank=True\r\n    )\r\n    provider = models.ManyToManyField(\r\n        \"provider.Provider\", related_name=\"provider\", null=True,  \r\n        blank=True\r\n    )\r\n    is_active = models.BooleanField(default=True)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/cars/models.py b/src/cars/models.py
+--- a/src/cars/models.py	
++++ b/src/cars/models.py	
+@@ -1,18 +1,37 @@
+ from django.db import models
+ from src.carshop.config.date_model_mixin import TimeStampMixin
++from django.contrib.auth.models import (
++    AbstractBaseUser,
++    BaseUserManager,
++    PermissionsMixin,
++)
++
++
++class CarsManager(BaseUserManager):
++    def create_car(self, name, description):
++        if name is None:
++            raise TypeError("User without username - not user!!!!")
++        if description is None:
++            raise TypeError("Car without description - Dangemaster!")
++
++        user = self.model(
++            name=name,
++            description=description,
++        )
++        user.save()
++        return user
+ 
+ 
+ class Cars(TimeStampMixin):
+     name = models.CharField(max_length=256, null=False, blank=False)
+     description = models.TextField("Description", blank=True, null=True)
+-    date = models.DateTimeField(auto_now_add=True)
+     image = models.ImageField(null=True, blank=True, upload_to="images/")
+     cars_details = models.ManyToManyField(
+-        "cars_details.CarsDetails", related_name="cars_details", null=True,  
+-        blank=True
++        "cars_details.CarsDetails", related_name="cars_details", null=True, blank=True
+     )
+     provider = models.ManyToManyField(
+-        "provider.Provider", related_name="provider", null=True,  
+-        blank=True
++        "provider.Provider", related_name="provider", null=True, blank=True
+     )
+     is_active = models.BooleanField(default=True)
++
++    objects = CarsManager()
