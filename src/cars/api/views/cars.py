@@ -10,7 +10,7 @@ class CarsView(viewsets.ModelViewSet):
     serializer_class = CarsSerializer
 
     def post(self, request):
-        serializer = self.serializer_class(data= request.data)
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

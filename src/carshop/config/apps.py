@@ -16,4 +16,5 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_countries",
     "corsheaders",
+    "drf_yasg",
 ]

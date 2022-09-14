@@ -3,7 +3,11 @@ import jwt
 from django.shortcuts import render
 from django.contrib.sites.shortcuts import get_current_site
 from rest_framework import generics, viewsets, status, views
-from src.profile.api.serializers.profile import RegisterSerializer, EmailSerializer
+from src.profile.api.serializers.profile import (
+    RegisterSerializer,
+    EmailSerializer,
+    LoginSerializer,
+)
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from src.profile.models import Profile
@@ -52,8 +56,9 @@ class RegisterView(viewsets.ModelViewSet):
 
 class VerfyEmail(views.APIView):
     serializer_class = EmailSerializer
+
     token_param_config = openapi.Parameter(
-        'token',
+        "token",
         in_=openapi.IN_QUERY,
         description="Description",
         type=openapi.TYPE_STRING,
@@ -61,10 +66,10 @@ class VerfyEmail(views.APIView):
 
     @swagger_auto_schema(manual_parameters=[token_param_config])
     def get(self):
-        token = request.GET.get('token')
+        token = request.GET.get("token")
         try:
             payload = jwt.decode(token, settings.SECRET_KEY)
-            user = Profile.objects.get(id=payload("user_id"))
+            user = Profile.objects.get(id=payload["user_id"])
             if not user.is_verified:
                 user.is_verified = True
                 user.save()
@@ -81,30 +86,37 @@ class VerfyEmail(views.APIView):
 
 
 class LoginView(views.APIView):
+    serializer_class = LoginSerializer
+    login_param = openapi.Parameter(
+        "email",
+        in_=openapi.IN_QUERY,
+        description="Description",
+        type=openapi.TYPE_STRING,
+    )
+
+    @swagger_auto_schema(manual_parameters=[login_param])
     def post(self, request):
-        email = request.data['email']
-        password = request.data['password']
+        email = request.data["email"]
+        password = request.data["password"]
 
         user = Profile.objects.filter(email=email).first()
 
         if user is None:
-            raise AuthenticationFailed('User not found')
+            raise AuthenticationFailed("User not found")
         if not user.check_password(password):
-            raise AuthenticationFailed('Incorrect password')
+            raise AuthenticationFailed("Incorrect password")
 
         payload = {
-            'id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
-            'iat': datetime.datetime.utcnow(),
+            "id": user.id,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            "iat": datetime.datetime.utcnow(),
         }
 
-        token = jwt.encode(payload, 'secret', algorithm='HS256')
+        token = jwt.encode(payload, "secret", algorithm="HS256")
 
         response = Response()
-        response.set_cookie(key='jwt', value=token, httponly=True)
-        response.data = {
-            'jwt': token
-        }
+        response.set_cookie(key="jwt", value=token, httponly=True)
+        response.data = {"jwt": token}
 
         return response
 
@@ -114,14 +126,14 @@ class ProfileView(views.APIView):
         token = request.COOKIES.get(jwt)
 
         if not token:
-            raise AuthenticationFailed('Unauthenticated!')
+            raise AuthenticationFailed("Unauthenticated!")
 
         try:
-            payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+            payload = jwt.decode(token, "secret", algorithm=["HS256"])
         except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated!')
+            raise AuthenticationFailed("Unauthenticated!")
 
-        user = Profile.objects.get(id=payload['id']).first()
+        user = Profile.objects.get(id=payload["id"]).first()
         serializar = RegisterSerializer(user)
 
         return Response(serializar.data)
@@ -130,9 +142,7 @@ class ProfileView(views.APIView):
 class LogoutView(views.APIView):
     def post(self, request):
         response = Response()
-        response.delete_cookie('jwt')
-        response.data = {
-            'message': 'success'
-        }
+        response.delete_cookie("jwt")
+        response.data = {"message": "success"}
 
         return response

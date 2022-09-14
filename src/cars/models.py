@@ -19,4 +19,6 @@ class Cars(TimeStampMixin):
         "provider.Provider", related_name="provider", null=True, blank=True
     )
     is_active = models.BooleanField(default=True)
-    price = MoneyField(max_digits=10, decimal_places=2, null=True, blank=True, default_currency='USD')
+    price = MoneyField(
+        max_digits=19, decimal_places=4, null=True, blank=True, default_currency="USD"
+    )

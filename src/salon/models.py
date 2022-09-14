@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
+from djmoney.models.validators import MaxMoneyValidator, MinMoneyValidator
 from django_countries.fields import CountryField
 from src.carshop.config.date_model_mixin import TimeStampMixin
 
@@ -24,8 +27,18 @@ class Salon(TimeStampMixin):
     location = CountryField()
     image = models.ImageField(null=True, blank=True, upload_to="images/")
     is_active = models.BooleanField(default=True)
+    balance = MoneyField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[
+            MinMoneyValidator(10),
+            MaxMoneyValidator(1500),
+            MinMoneyValidator(Money(500, 'NOK')),
+            MaxMoneyValidator(Money(900, 'NOK')),
+            MinMoneyValidator({'EUR': 100, 'USD': 50}),
+            MaxMoneyValidator({'EUR': 1000, 'USD': 500}),
+        ]
+    )
 
     def __str__(self):
         return self.name
-
-

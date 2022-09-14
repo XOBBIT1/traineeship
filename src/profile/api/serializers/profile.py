@@ -8,9 +8,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ["email", "username", "password", "bio", "description"]
-        extra_kwargs = {
-            "password": {"write_only": True}
-        }
+        extra_kwargs = {"password": {"write_only": True}}
 
     def validate(self, attrs):
         email = attrs.get("email", "")
@@ -35,3 +33,12 @@ class EmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ["token"]
+
+
+class LoginSerializer(serializers.ModelSerializer):
+    email = serializers.CharField(max_length=555)
+    password = serializers.CharField(max_length=255)
+
+    class Meta:
+        model = Profile
+        fields = ["email", "password"]

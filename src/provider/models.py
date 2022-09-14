@@ -14,4 +14,3 @@ class Provider(TimeStampMixin):
         "salon.Salon", related_name="salon", null=True, blank=True
     )
     is_active = models.BooleanField(default=True)
-

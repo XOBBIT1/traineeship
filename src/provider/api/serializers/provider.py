@@ -13,4 +13,3 @@ class ProviderSerializer(serializers.ModelSerializer):
         if not name.isalnum():
             raise serializers.ValidationError("Error")
         return attrs
-

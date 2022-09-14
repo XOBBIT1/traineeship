@@ -4,4 +4,4 @@ from src.cars.api.views.cars import CarsView
 
 cars_api_router = routers.DefaultRouter()
 
-cars_api_router.register('cars', CarsView)
+cars_api_router.register("cars", CarsView)
