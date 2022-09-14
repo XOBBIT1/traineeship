@@ -18,6 +18,9 @@ class Cars(TimeStampMixin):
     provider = models.ManyToManyField(
         "provider.Provider", related_name="provider", null=True, blank=True
     )
+    salon = models.ManyToManyField(
+        "salon.Salon", related_name="salon_cars", null=True, blank=True
+    )
     is_active = models.BooleanField(default=True)
     price = MoneyField(
         max_digits=19, decimal_places=4, null=True, blank=True, default_currency="USD"

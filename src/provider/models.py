@@ -8,7 +8,7 @@ class Provider(TimeStampMixin):
     date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(null=True, blank=True, upload_to="images/")
     cars = models.ManyToManyField(
-        "cars.Cars", related_name="car", null=True, blank=True
+        "cars.Cars", related_name="cars_provider", null=True, blank=True
     )
     salons = models.ManyToManyField(
         "salon.Salon", related_name="salon", null=True, blank=True

@@ -44,3 +44,6 @@ EXCHANGE_BACKEND = "djmoney.contrib.exchange.backends.FixerBackend"
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+
+CART_SESSION_ID = 'cart'
