@@ -15,5 +15,4 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_spectacular",
     "django_countries",
-    "corsheaders",
 ]

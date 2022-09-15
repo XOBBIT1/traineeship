@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from src.provider.models import Provider
+from rest_framework import serializers
 
 
 class ProviderSerializer(serializers.ModelSerializer):
@@ -13,4 +13,3 @@ class ProviderSerializer(serializers.ModelSerializer):
         if not name.isalnum():
             raise serializers.ValidationError("Error")
         return attrs
-

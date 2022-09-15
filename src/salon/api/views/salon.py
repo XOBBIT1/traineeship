@@ -1,8 +1,8 @@
+from src.salon.models import Salon
+from src.salon.api.serializers.salon import SalonSerializer
 from django.shortcuts import render
 from rest_framework import generics, viewsets
-from src.salon.api.serializers.salon import SalonSerializer
 from rest_framework.response import Response
-from src.salon.models import Salon
 
 
 class SalonView(viewsets.ModelViewSet):

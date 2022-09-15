@@ -25,8 +25,5 @@ class CarsDetails(TimeStampMixin):
     is_active = models.BooleanField(default=True)
 
 
-
 class Color(TimeStampMixin):
     name = models.CharField(max_length=256, null=False, blank=False)
-
-

@@ -1,6 +1,6 @@
+from src.carshop.config.date_model_mixin import TimeStampMixin
 from django.db import models
 from djmoney.models.fields import MoneyField
-from src.carshop.config.date_model_mixin import TimeStampMixin
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -19,4 +19,6 @@ class Cars(TimeStampMixin):
         "provider.Provider", related_name="provider", null=True, blank=True
     )
     is_active = models.BooleanField(default=True)
-    price = MoneyField(max_digits=10, decimal_places=2, null=True, blank=True, default_currency='USD')
+    price = MoneyField(
+        max_digits=10, decimal_places=2, null=True, blank=True, default_currency="USD"
+    )

@@ -8,14 +8,16 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('provider', '0001_initial'),
-        ('salon', '0001_initial'),
+        ("provider", "0001_initial"),
+        ("salon", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='provider',
-            name='salons',
-            field=models.ManyToManyField(blank=True, null=True, related_name='salon', to='salon.Salon'),
+            model_name="provider",
+            name="salons",
+            field=models.ManyToManyField(
+                blank=True, null=True, related_name="salon", to="salon.Salon"
+            ),
         ),
     ]
