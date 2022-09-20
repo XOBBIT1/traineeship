@@ -12,6 +12,9 @@ class Salon(TimeStampMixin):
     name_client = models.ManyToManyField(
         "profile.Profile", related_name="client", null=True, blank=True
     )
+    cars = models.ManyToManyField(
+        "cars.Cars", related_name="cars_salon", null=True, blank=True
+    )
     name_provider = models.ManyToManyField(
         "provider.Provider",
         related_name="provider_salon",

@@ -18,9 +18,3 @@ class SalonSerializer(CountryFieldMixin, serializers.ModelSerializer):
         return attrs
 
 
-class BuySerializer(serializers.ModelSerializer):
-    car = serializers.CharField(max_length=50)
-
-    class Meta:
-        model = Salon
-        fields = ["car"]

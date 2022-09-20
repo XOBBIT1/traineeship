@@ -95,6 +95,9 @@ webdriver-manager = "==3.7.0"
 whois = "==0.9.13"
 wsproto = "==1.1.0"
 jwt = "*"
+celery = "*"
+redis = "*"
+flower = "*"
 
 [dev-packages]
 

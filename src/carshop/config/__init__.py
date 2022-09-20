@@ -6,3 +6,4 @@ from .files import *
 from .middlewares import *
 from .tamplates import *
 from .wsgi import *
+from .celery_settings import *

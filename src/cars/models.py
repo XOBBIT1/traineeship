@@ -1,5 +1,6 @@
-from src.salon.models import Salon
 from src.provider.models import Provider
+from src.profile.models import Profile
+from src.salon.models import Salon
 from django.db import models
 from djmoney.models.fields import MoneyField
 from src.carshop.config.date_model_mixin import TimeStampMixin
@@ -18,10 +19,13 @@ class Cars(TimeStampMixin):
         "cars_details.CarsDetails", related_name="cars_details", null=True, blank=True
     )
     provider = models.ForeignKey(
-        Provider, related_name="provider", on_delete=models.CASCADE, null=True, blank=True
+        Provider, related_name="cars_provider", on_delete=models.CASCADE, null=True, blank=True
     )
     salon = models.ForeignKey(
-       Salon, related_name="salon_cars", null=True, on_delete=models.CASCADE, blank=True
+        Salon, related_name="cars_salon", on_delete=models.CASCADE, null=True, blank=True
+    )
+    profile = models.ForeignKey(
+        Profile, related_name="cars_profile", on_delete=models.CASCADE, null=True, blank=True
     )
     is_active = models.BooleanField(default=True)
     price = MoneyField(

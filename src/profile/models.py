@@ -18,7 +18,6 @@ class Profile(TimeStampMixin, AbstractBaseUser):
     )
     description = models.TextField("Description", blank=False, null=False)
     image = models.ImageField(null=True, blank=True, upload_to="images/")
-    cars = models.ManyToManyField("cars.Cars", related_name="car_profile", null=True)
     salon = models.ManyToManyField("salon.Salon", related_name="salon_profile", null=True)
     bio = models.TextField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
