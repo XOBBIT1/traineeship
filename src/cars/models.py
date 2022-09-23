@@ -19,13 +19,25 @@ class Cars(TimeStampMixin):
         "cars_details.CarsDetails", related_name="cars_details", null=True, blank=True
     )
     provider = models.ForeignKey(
-        Provider, related_name="cars_provider", on_delete=models.CASCADE, null=True, blank=True
+        Provider,
+        related_name="cars_provider",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
     salon = models.ForeignKey(
-        Salon, related_name="cars_salon", on_delete=models.CASCADE, null=True, blank=True
+        Salon,
+        related_name="cars_salon",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
     profile = models.ForeignKey(
-        Profile, related_name="cars_profile", on_delete=models.CASCADE, null=True, blank=True
+        Profile,
+        related_name="cars_profile",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
     is_active = models.BooleanField(default=True)
     price = MoneyField(

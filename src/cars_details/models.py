@@ -10,9 +10,7 @@ from django.contrib.auth.models import (
 class CarsDetails(TimeStampMixin):
     name = models.CharField(max_length=256, null=False, blank=False)
     description = models.TextField("Description", blank=True, null=True)
-    color = models.ManyToManyField(
-        "cars_details.Color", related_name="car_color", null=True, blank=True
-    )
+    color = models.CharField(max_length=256, null=True, blank=False)
     image = models.ImageField(null=True, blank=True, upload_to="images/")
     cars = models.ManyToManyField(
         "cars.Cars", related_name="car_for_details", null=True, blank=True
@@ -23,7 +21,3 @@ class CarsDetails(TimeStampMixin):
         null=False,
     )
     is_active = models.BooleanField(default=True)
-
-
-class Color(TimeStampMixin):
-    name = models.CharField(max_length=256, null=False, blank=False)

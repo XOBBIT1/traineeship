@@ -5,6 +5,6 @@ from . import views
 
 urlpatterns = [
     path("/", include(cars_api_router.urls)),
-    path("_bye_salon", SalonByeCarsView.as_view(), name="bye_salon"),
-    path("_bye_profile", ProfileByeCarsView.as_view(), name="bye_profile")
+    path("_buy_salon/<int:pk>/", SalonByeCarsView.as_view(), name="bye_salon"),
+    path("_buy_profile/<int:pk>/", ProfileByeCarsView.as_view(), name="bye_profile"),
 ]

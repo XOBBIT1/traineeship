@@ -1,4 +1,8 @@
-from src.cars.api.serializers.cars import CarsSerializer, SalonByeCarSerializer, ProfileByeCarsSerializer
+from src.cars.api.serializers.cars import (
+    CarsSerializer,
+    SalonByeCarSerializer,
+    ProfileByeCarsSerializer,
+)
 from src.cars.models import Cars
 from django.shortcuts import render
 from rest_framework import generics, viewsets, views, status
@@ -53,5 +57,3 @@ class ProfileByeCarsView(views.APIView):
         user_data = serializer.data
 
         return Response(user_data, status=status.HTTP_200_OK)
-    
-    
