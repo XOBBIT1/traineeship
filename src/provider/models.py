@@ -1,5 +1,6 @@
-from django.db import models
 from src.carshop.config.date_model_mixin import TimeStampMixin
+from src.salon.models import Salon
+from django.db import models
 
 
 class Provider(TimeStampMixin):
@@ -7,7 +8,11 @@ class Provider(TimeStampMixin):
     description = models.TextField("Description", blank=False, null=False)
     date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(null=True, blank=True, upload_to="images/")
-    salons = models.ManyToManyField(
-        "salon.Salon", related_name="salon", null=True, blank=True
+    salons = models.ForeignKey(
+        Salon,
+        related_name="salons_provider",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
     )
     is_active = models.BooleanField(default=True)

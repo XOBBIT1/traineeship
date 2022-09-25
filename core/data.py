@@ -22,6 +22,21 @@ colors = ['Red', 'White', 'Blue', "Black", 'Green', 'Grey', 'Purple', 'Yellow']
 body_types = ['Hatchback', 'Minivan', 'CrossOverVehicle', 'Coupe', 'Supercar', 'Cabriolet', 'Sedan', 'Micro']
 name_list = ["LOXA", 'Ichigo', 'Luffy', 'Naruto', 'Goku', 'Madara', 'Izen', 'Jozef Jostar', 'Dio', 'Satoru']
 description = ["Car for salon!!!", "Car for BOND!!!", "My Car)!"]
+description_provider = ["The best provider", "A man which you ca believe", "Dangen Master!"]
+location = ["BR", "UK", "US", "AF"]
+salon_name = ["LOXAS_SALON", 'Ichigos_salon', 'Luffys_salon', 'Narutos_salon', 'Gokus_salon', 'Madaras_salon']
+
+
+def random_salon_name():
+    return random.choice(salon_name)
+
+
+def random_location():
+    return random.choice(location)
+
+
+def random_description_provider():
+    return random.choice(description_provider)
 
 
 def random_description():

@@ -1,13 +1,14 @@
-import random
-from src.cars.models import Cars
+from src.salon.models import Salon
 from src.provider.models import Provider
-from core.data import cars_models, random_cars_models, random_description, random_year
+from src.profile.models import Profile
+import random
+from core.data import random_salon_name, random_cars_models, random_description, random_location
 
 
-def create_car_script():
-    car_for_dealer = Cars.objects.create(name=random_cars_models(),
-                                         description=random_description(),
-                                         created_at=random_year(),
-                                         price=random.randint(5000, 15000),
-                                         provider=random.choice(Provider.objects.all()),
-                                         )
+def create_salon_script():
+    car_for_dealer = Salon.objects.create(name=random_salon_name(),
+                                          name_client=random.choice(Profile.objects.all()),
+                                          location=random_location(),
+                                          balance=random.randint(15000, 20000),
+                                          )
+

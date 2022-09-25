@@ -5,9 +5,14 @@ from core.data import cars_models, random_cars_models, random_description, rando
 
 
 def create_car_script():
-    car_for_dealer = Cars.objects.create(name=random_cars_models(),
-                                         description=random_description(),
-                                         created_at=random_year(),
-                                         price=random.randint(5000, 15000),
-                                         provider=random.choice(Provider.objects.all()),
-                                         )
+    car_for_dealer = Cars.objects.create(
+        name=random_cars_models(),
+        description=random_description(),
+        created_at=random_year(),
+        price=random.randint(5000, 15000),
+        provider=random.choice(Provider.objects.all()),
+    )
+
+
+def salon_buy_car():
+    pass
