@@ -6,4 +6,4 @@ from src.provider.scripts.create_provider import create_provider_script
 
 @shared_task
 def create_provider():
-    create_provider_script()
+    create_provider_script().dealy(10)

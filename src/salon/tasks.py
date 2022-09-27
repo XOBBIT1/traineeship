@@ -7,4 +7,4 @@ from src.salon.scripts.create_salon import create_salon_script
 
 @shared_task
 def create_salon():
-    create_salon_script()
+    create_salon_script().dealy(5)
