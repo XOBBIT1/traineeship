@@ -27,14 +27,8 @@ def salon_buy_car_script():
 
         get_salon.balance -= get_car.price
         with transaction.atomic():
-            # Cars.objects.all().get(id=car.id).update(col = F('col') + price)
-            get_salon.save()
-
-            # get_car.provider = 0
+            Cars.objects.all().get(id=car.id).update(col = F('col') + price)
             Salon.objects.get(id).update(car_count=F("car_count") + count_car_rand)
-
-            # get_car.salon += random.choice(Salon.objects.all())
-            # get_car.save()
 
     else:
         raise Exception("You don't have enough money")
